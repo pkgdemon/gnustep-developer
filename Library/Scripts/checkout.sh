@@ -37,20 +37,20 @@ https://github.com/apple/swift-corelibs-libdispatch.git
 https://github.com/gnustep/libobjc2.git
 https://github.com/gnustep/tools-make.git
 https://github.com/gnustep/libs-base.git
-https://github.com/gnustep/libs-gui.git
+https://github.com/gnustep/libs-corebase.git
+git@github.com:pkgdemon/libs-gui.git
+git@github.com:pkgdemon/libs-opal.git
 https://github.com/gnustep/libs-back.git
 https://github.com/gnustep/libs-av.git
 https://github.com/gnustep/libs-steptalk.git
-https://github.com/gershwin-desktop/gershwin-system.git
-https://github.com/gershwin-desktop/gershwin-workspace.git
-https://github.com/gershwin-desktop/gershwin-systempreferences.git
-https://github.com/gershwin-desktop/gershwin-eau-theme.git
-https://github.com/gershwin-desktop/gershwin-terminal.git
-https://github.com/gershwin-desktop/gershwin-textedit.git
-https://github.com/gershwin-desktop/gershwin-windowmanager.git
-https://github.com/gershwin-desktop/gershwin-components.git
-https://github.com/gershwin-desktop/gershwin-assets.git
-https://github.com/gershwin-desktop/docs.git
+git@github.com:pkgdemon/gnustep-system.git
+git@github.com:pkgdemon/apps-dock.git
+git@github.com:pkgdemon/apps-gworkspace.git
+git@github.com:gnustep/apps-systempreferences.git
+git@github.com:pkgdemon/gnustep-terminal.git
+git@github.com:pkgdemon/gnustep-textedit.git
+git@github.com:pkgdemon/gnustep-windowmanager.git
+git@github.com:pkgdemon/gnustep-assets.git
 "
 
 # Pinned commits, as "<repo name> <commit>". These are upstream libraries; we pin
