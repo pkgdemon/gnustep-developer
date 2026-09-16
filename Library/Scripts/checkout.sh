@@ -51,6 +51,7 @@ git@github.com:pkgdemon/gnustep-terminal.git
 git@github.com:pkgdemon/gnustep-textedit.git
 git@github.com:pkgdemon/gnustep-windowmanager.git
 git@github.com:pkgdemon/gnustep-assets.git
+git@github.com:pkgdemon/gnustep-components.git
 "
 
 # Pinned commits, as "<repo name> <commit>". These are upstream libraries; we pin

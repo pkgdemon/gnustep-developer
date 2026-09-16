@@ -317,6 +317,14 @@ build_windowmanager() {
   $MAKE_CMD clean
 }
 
+build_components() {
+  # Components with a .DISABLED file in their directory will not be built
+  cd "$REPOS_DIR/gershwin-components/DirectoryServices/"
+  $MAKE_CMD CPPFLAGS="-DGNUSTEP_INSTALL_TYPE=SYSTEM" -j"$CPUS" || exit 1
+  $MAKE_CMD install
+  $MAKE_CMD clean
+}
+
 # Dispatch on the requested target.  Default "all" reproduces the original
 # end-to-end System Domain install in the exact same order.
 TARGET="${1:-all}"
@@ -331,10 +339,6 @@ case "$TARGET" in
   systempreferences)
     ensure_gnustep_env
     build_systempreferences
-    ;;
-  eau-theme)
-    ensure_gnustep_env
-    build_eau_theme
     ;;
   terminal)
     ensure_gnustep_env
@@ -356,7 +360,6 @@ case "$TARGET" in
     build_corelibs
     build_workspace
     build_systempreferences
-    build_eau_theme
     build_terminal
     build_textedit
     build_windowmanager
