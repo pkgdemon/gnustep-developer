@@ -41,6 +41,7 @@ https://github.com/gnustep/libs-corebase.git
 git@github.com:pkgdemon/libs-gui.git
 git@github.com:pkgdemon/libs-opal.git
 https://github.com/gnustep/libs-back.git
+git@github.com:pkgdemon/libs-quartzcore.git
 https://github.com/gnustep/libs-av.git
 https://github.com/gnustep/libs-steptalk.git
 git@github.com:pkgdemon/gnustep-system.git
