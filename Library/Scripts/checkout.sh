@@ -63,14 +63,7 @@ git@github.com:pkgdemon/gnustep-components.git
 # these commits. libs-gui is held a day behind its HEAD: dropdown-tracking.patch
 # does not apply to the 2026-07-26 commits.
 PINS="
-libobjc2                    c9f4002
-libs-back                   bbcc3de
-libs-base                   5bda522
-libs-gui                    8f804fd
 swift-corelibs-libdispatch  95f592a
-tools-make                  4e31a03
-libs-av                     26566e2
-libs-steptalk               2b57b46
 "
 
 # Echo the pinned commit for repo $1, or nothing if the repo is not pinned.
