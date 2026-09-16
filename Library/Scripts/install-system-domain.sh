@@ -13,6 +13,19 @@ export_vars
 
 export REPOS_DIR="$WORKDIR/Library/Sources"
 
+# The Gershwin domain is a clang toolchain end to end: the ng-gnu-gnu library
+# combo is built on libobjc2, and the cmake stages already pin
+# -DCMAKE_C_COMPILER=clang. The autoconf stages, though, let configure pick its
+# own default, which on Linux is gcc. That is not just an inconsistency - on
+# Debian bookworm (gcc 12) libs-corebase's AC_CHECK_HEADERS([dispatch/dispatch.h])
+# fails against the libdispatch headers we just installed and configure aborts
+# with "Could not find the Grand Central Dispatch headers.". On the BSDs cc is
+# already clang, so this is a no-op there. An explicit CC/CXX/OBJC in the
+# environment still wins, so a deliberate override is unaffected.
+export CC="${CC:-clang}"
+export CXX="${CXX:-clang++}"
+export OBJC="${OBJC:-clang}"
+
 # Detect NextBSD - libdispatch is provided by the base system
 if [ -d "/usr/lib/system" ]; then
   NEXTBSD=1
@@ -60,11 +73,11 @@ ensure_gnustep_env() {
 }
 
 build_corelibs() {
-  cd "$REPOS_DIR/gershwin-system"
+  cd "$REPOS_DIR/gnustep-system"
   $MAKE_CMD install
   export GNUSTEP_INSTALLATION_DOMAIN="SYSTEM"
 
-  cd "$REPOS_DIR/gershwin-assets"
+  cd "$REPOS_DIR/gnustep-assets"
   cp -R Library/* /System/Library/
 
   # Patch libdispatch (FreeBSD timer-spin fix; harmless on other platforms).
@@ -202,12 +215,29 @@ build_corelibs() {
   $MAKE_CMD install
   $MAKE_CMD clean
 
+  cd "$REPOS_DIR/libs-corebase"
+  ./configure \
+    CPPFLAGS="-I/System/Library/Headers" \
+    LDFLAGS="-L/System/Library/Libraries"
+  $MAKE_CMD -j"$CPUS" || exit 1
+  $MAKE_CMD install
+  $MAKE_CMD clean
+
   # Patch libs-gui
   echo "Patching libs-gui..."
   patch.sh libs-gui
 
   cd "$REPOS_DIR/libs-gui"
   ./configure $BUILD_FLAG
+  $MAKE_CMD -j"$CPUS" || exit 1
+  $MAKE_CMD install
+  $MAKE_CMD clean
+
+  # Patch libs-opal
+  echo "Patching libs-opal..."
+  patch.sh libs-opal
+
+  cd "$REPOS_DIR/libs-opal"
   $MAKE_CMD -j"$CPUS" || exit 1
   $MAKE_CMD install
   $MAKE_CMD clean
@@ -223,11 +253,9 @@ build_corelibs() {
   $MAKE_CMD install
   $MAKE_CMD clean
 
-  # Hook into tools-make to inject build time and git hash into Info-gnustep.plist files
-  cd "$REPOS_DIR/gershwin-components/plistupdate"
-  $MAKE_CMD CPPFLAGS="-DGNUSTEP_INSTALL_TYPE=SYSTEM" -j"$CPUS" || exit 1
+  cd "$REPOS_DIR/libs-quartzcore"
+  $MAKE_CMD -j"$CPUS" || exit 1
   $MAKE_CMD install
-  sh -e ./setup-integration.sh
   $MAKE_CMD clean
 
   # Patch libs-av
@@ -241,7 +269,7 @@ build_corelibs() {
 }
 
 build_workspace() {
-  cd "$REPOS_DIR/gershwin-workspace"
+  cd "$REPOS_DIR/gnustep-workspace"
   # OpenBSD ships autoconf and automake with version-suffixed binaries;
   # autoreconf needs these env vars to pick the right versions.
   if [ "$(uname -s)" = "OpenBSD" ]; then
@@ -259,21 +287,14 @@ build_workspace() {
 }
 
 build_systempreferences() {
-  cd "$REPOS_DIR/gershwin-systempreferences"
-  $MAKE_CMD -j"$CPUS" || exit 1
-  $MAKE_CMD install
-  $MAKE_CMD clean
-}
-
-build_eau_theme() {
-  cd "$REPOS_DIR/gershwin-eau-theme"
+  cd "$REPOS_DIR/gnustep-systempreferences"
   $MAKE_CMD -j"$CPUS" || exit 1
   $MAKE_CMD install
   $MAKE_CMD clean
 }
 
 build_terminal() {
-  cd "$REPOS_DIR/gershwin-terminal"
+  cd "$REPOS_DIR/gnustep-terminal"
   # On glibc based Linux systems, -liconv should not be used as iconv is part of glibc
   # TODO: Port this fix to GNUmakefile.preamble properly
   if [ "$(uname)" = "Linux" ] ; then
@@ -287,22 +308,14 @@ build_terminal() {
 }
 
 build_textedit() {
-  cd "$REPOS_DIR/gershwin-textedit"
+  cd "$REPOS_DIR/gnustep-textedit"
   $MAKE_CMD CPPFLAGS="-DGNUSTEP_INSTALL_TYPE=SYSTEM" -j"$CPUS" || exit 1
   $MAKE_CMD install
   $MAKE_CMD clean
 }
 
 build_windowmanager() {
-  cd "$REPOS_DIR/gershwin-windowmanager/"
-  $MAKE_CMD CPPFLAGS="-DGNUSTEP_INSTALL_TYPE=SYSTEM" -j"$CPUS" || exit 1
-  $MAKE_CMD install
-  $MAKE_CMD clean
-}
-
-build_components() {
-  # Components with a .DISABLED file in their directory will not be built
-  cd "$REPOS_DIR/gershwin-components/"
+  cd "$REPOS_DIR/gnustep-windowmanager/"
   $MAKE_CMD CPPFLAGS="-DGNUSTEP_INSTALL_TYPE=SYSTEM" -j"$CPUS" || exit 1
   $MAKE_CMD install
   $MAKE_CMD clean
