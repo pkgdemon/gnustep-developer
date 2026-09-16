@@ -183,10 +183,6 @@ build_corelibs() {
 
   cd "$REPOS_DIR/libs-base"
 
-  # Patch libs-base (64-bit _4CF main-queue handle fix for Apple libdispatch).
-  echo "Patching libs-base..."
-  patch.sh libs-base
-
   if [ "$NEXTBSD" -eq 1 ]; then
     # NextBSD ships libdns_sd (the mDNSResponder DNS-SD client) in
     # /usr/lib/system, which is on binaries' runtime RUNPATH but is NOT a
@@ -223,10 +219,6 @@ build_corelibs() {
   $MAKE_CMD install
   $MAKE_CMD clean
 
-  # Patch libs-gui
-  echo "Patching libs-gui..."
-  patch.sh libs-gui
-
   cd "$REPOS_DIR/libs-gui"
   ./configure $BUILD_FLAG
   $MAKE_CMD -j"$CPUS" || exit 1
@@ -237,10 +229,6 @@ build_corelibs() {
   $MAKE_CMD -j"$CPUS" || exit 1
   $MAKE_CMD install
   $MAKE_CMD clean
-
-  # Patch libs-back
-  echo "Patching libs-back..."
-  patch.sh libs-back # https://github.com/gnustep/libs-back/issues/74
 
   cd "$REPOS_DIR/libs-back"
   export fonts=no
@@ -253,10 +241,6 @@ build_corelibs() {
   $MAKE_CMD -j"$CPUS" || exit 1
   $MAKE_CMD install
   $MAKE_CMD clean
-
-  # Patch libs-av
-  echo "Patching libs-av..."
-  patch.sh libs-av # https://github.com/gnustep/libs-av/pull/1
 
   cd "$REPOS_DIR/libs-av"
   $MAKE_CMD -j"$CPUS" || exit 1
