@@ -18,6 +18,9 @@ corelibs: check_root
 workspace: check_root
 	@FROM_MAKEFILE=1 sh ./Library/Scripts/install-system-domain.sh workspace
 
+dock: check_root
+	@FROM_MAKEFILE=1 sh ./Library/Scripts/install-system-domain.sh dock
+
 systempreferences: check_root
 	@FROM_MAKEFILE=1 sh ./Library/Scripts/install-system-domain.sh systempreferences
 

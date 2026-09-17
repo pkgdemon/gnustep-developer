@@ -78,6 +78,7 @@ root, like `make install`.
 | --- | --- |
 | `corelibs` | core libraries (libdispatch, libobjc2, tools-make, libs-base, libs-gui, libs-back) plus gershwin-system, gershwin-assets and the plistupdate hook |
 | `workspace` | gershwin-workspace |
+| `dock` | apps-dock (DockWM) |
 | `systempreferences` | gershwin-systempreferences |
 | `eau-theme` | gershwin-eau-theme |
 | `terminal` | gershwin-terminal |

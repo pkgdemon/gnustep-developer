@@ -268,6 +268,13 @@ build_workspace() {
   $MAKE_CMD clean
 }
 
+build_dock() {
+  cd "$REPOS_DIR/apps-dock"
+  $MAKE_CMD CPPFLAGS="-DGNUSTEP_INSTALL_TYPE=SYSTEM" -j"$CPUS" || exit 1
+  $MAKE_CMD install
+  $MAKE_CMD clean
+}
+
 build_systempreferences() {
   cd "$REPOS_DIR/apps-systempreferences"
   $MAKE_CMD -j"$CPUS" || exit 1
@@ -322,6 +329,10 @@ case "$TARGET" in
     ensure_gnustep_env
     build_workspace
     ;;
+  dock)
+    ensure_gnustep_env
+    build_dock
+    ;;
   systempreferences)
     ensure_gnustep_env
     build_systempreferences
@@ -345,6 +356,7 @@ case "$TARGET" in
   all)
     build_corelibs
     build_workspace
+    build_dock
     build_systempreferences
     build_terminal
     build_textedit
@@ -353,7 +365,7 @@ case "$TARGET" in
     ;;
   *)
     echo "Unknown target: $TARGET"
-    echo "Valid targets: corelibs workspace systempreferences eau-theme terminal textedit windowmanager components all"
+    echo "Valid targets: corelibs workspace dock systempreferences eau-theme terminal textedit windowmanager components all"
     exit 1
     ;;
 esac
