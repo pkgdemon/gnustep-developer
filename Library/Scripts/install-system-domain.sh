@@ -318,6 +318,16 @@ build_components() {
   $MAKE_CMD clean
 }
 
+build_dubstep_theme() {
+  # GSTheme bundle; installs to /System/Library/Themes/Dubstep.theme.
+  # Selecting it is left to the user (System Preferences > Themes, or
+  # "defaults write NSGlobalDomain GSTheme Dubstep").
+  cd "$REPOS_DIR/dubstep-dark-theme"
+  $MAKE_CMD -j"$CPUS" || exit 1
+  $MAKE_CMD install
+  $MAKE_CMD clean
+}
+
 # Dispatch on the requested target.  Default "all" reproduces the original
 # end-to-end System Domain install in the exact same order.
 TARGET="${1:-all}"
@@ -353,6 +363,10 @@ case "$TARGET" in
     ensure_gnustep_env
     build_components
     ;;
+  dubstep-theme)
+    ensure_gnustep_env
+    build_dubstep_theme
+    ;;
   all)
     build_corelibs
     build_workspace
@@ -362,10 +376,11 @@ case "$TARGET" in
     build_textedit
     build_windowmanager
     build_components
+    build_dubstep_theme
     ;;
   *)
     echo "Unknown target: $TARGET"
-    echo "Valid targets: corelibs workspace dock systempreferences eau-theme terminal textedit windowmanager components all"
+    echo "Valid targets: corelibs workspace dock systempreferences terminal textedit windowmanager components dubstep-theme all"
     exit 1
     ;;
 esac

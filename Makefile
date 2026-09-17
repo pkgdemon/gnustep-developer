@@ -24,9 +24,6 @@ dock: check_root
 systempreferences: check_root
 	@FROM_MAKEFILE=1 sh ./Library/Scripts/install-system-domain.sh systempreferences
 
-eau-theme: check_root
-	@FROM_MAKEFILE=1 sh ./Library/Scripts/install-system-domain.sh eau-theme
-
 terminal: check_root
 	@FROM_MAKEFILE=1 sh ./Library/Scripts/install-system-domain.sh terminal
 
@@ -38,6 +35,9 @@ windowmanager: check_root
 
 components: check_root
 	@FROM_MAKEFILE=1 sh ./Library/Scripts/install-system-domain.sh components
+
+dubstep-theme: check_root
+	@FROM_MAKEFILE=1 sh ./Library/Scripts/install-system-domain.sh dubstep-theme
 
 uninstall: check_root
 	@if [ -d "/usr/lib/system" ]; then \

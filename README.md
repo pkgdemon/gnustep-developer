@@ -80,11 +80,11 @@ root, like `make install`.
 | `workspace` | gershwin-workspace |
 | `dock` | apps-dock (DockWM) |
 | `systempreferences` | gershwin-systempreferences |
-| `eau-theme` | gershwin-eau-theme |
 | `terminal` | gershwin-terminal |
 | `textedit` | gershwin-textedit |
 | `windowmanager` | gershwin-windowmanager |
 | `components` | gershwin-components (Menu, DirectoryServices, LoginWindow, …) |
+| `dubstep-theme` | dubstep-dark-theme (GSTheme bundle, installed to /System/Library/Themes) |
 
 For example, build the core libraries once and then just (re)build the workspace:
 
