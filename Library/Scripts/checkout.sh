@@ -47,7 +47,7 @@ https://github.com/gnustep/libs-steptalk.git
 git@github.com:pkgdemon/gnustep-system.git
 git@github.com:pkgdemon/apps-dock.git
 git@github.com:pkgdemon/apps-gworkspace.git
-git@github.com:gnustep/apps-systempreferences.git
+git@github.com:pkgdemon/apps-systempreferences.git
 git@github.com:pkgdemon/gnustep-terminal.git
 git@github.com:pkgdemon/gnustep-textedit.git
 git@github.com:pkgdemon/gnustep-windowmanager.git
