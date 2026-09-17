@@ -305,7 +305,7 @@ build_windowmanager() {
 
 build_components() {
   # Components with a .DISABLED file in their directory will not be built
-  cd "$REPOS_DIR/gershwin-components/DirectoryServices/"
+  cd "$REPOS_DIR/gnustep-components/DirectoryServices/"
   $MAKE_CMD CPPFLAGS="-DGNUSTEP_INSTALL_TYPE=SYSTEM" -j"$CPUS" || exit 1
   $MAKE_CMD install
   $MAKE_CMD clean
