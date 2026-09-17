@@ -249,7 +249,7 @@ build_corelibs() {
 }
 
 build_workspace() {
-  cd "$REPOS_DIR/gnustep-workspace"
+  cd "$REPOS_DIR/apps-gworkspace"
   # OpenBSD ships autoconf and automake with version-suffixed binaries;
   # autoreconf needs these env vars to pick the right versions.
   if [ "$(uname -s)" = "OpenBSD" ]; then
@@ -267,7 +267,7 @@ build_workspace() {
 }
 
 build_systempreferences() {
-  cd "$REPOS_DIR/gnustep-systempreferences"
+  cd "$REPOS_DIR/apps-systempreferences"
   $MAKE_CMD -j"$CPUS" || exit 1
   $MAKE_CMD install
   $MAKE_CMD clean
