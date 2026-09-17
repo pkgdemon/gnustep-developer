@@ -22,7 +22,9 @@ export REPOS_DIR="$WORKDIR/Library/Sources"
 # with "Could not find the Grand Central Dispatch headers.". On the BSDs cc is
 # already clang, so this is a no-op there. An explicit CC/CXX/OBJC in the
 # environment still wins, so a deliberate override is unaffected.
-export CC="${CC:-clang}"
+# -std=gnu23 matches the CC that tools-make's Autoconf 2.73 configure records
+# in gnustep-make; apps-gworkspace's configure aborts if the two differ.
+export CC="${CC:-clang -std=gnu23}"
 export CXX="${CXX:-clang++}"
 export OBJC="${OBJC:-clang}"
 
