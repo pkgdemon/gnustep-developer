@@ -7,12 +7,7 @@ check_root:
 install: system
 
 system: check_root
-	@if [ -d "/System/Applications" ]; then \
-		echo "Gershwin System Domain appears to be already installed."; \
-	else \
-		echo "Installing GNUstep System Domain..."; \
-		FROM_MAKEFILE=1 sh ./Library/Scripts/install-system-domain.sh all; \
-	fi
+	@FROM_MAKEFILE=1 sh ./Library/Scripts/install-system-domain.sh all; \
 
 # Granular build targets. Each builds a single component from
 # Library/Sources, assuming the core libraries are already installed
