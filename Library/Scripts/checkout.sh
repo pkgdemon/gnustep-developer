@@ -48,8 +48,7 @@ git@github.com:pkgdemon/gnustep-system.git
 git@github.com:pkgdemon/apps-dock.git
 git@github.com:pkgdemon/apps-gworkspace.git
 git@github.com:pkgdemon/apps-systempreferences.git
-git@github.com:pkgdemon/gnustep-terminal.git
-git@github.com:pkgdemon/gnustep-textedit.git
+git@github.com:pkgdemon/gap
 git@github.com:pkgdemon/gnustep-windowmanager.git
 git@github.com:pkgdemon/gnustep-assets.git
 git@github.com:pkgdemon/gnustep-components.git
@@ -176,19 +175,6 @@ if [ "$PINNED" -eq 1 ]; then
 $PINS
 EOF
 fi
-
-# Gershwin's own repositories are intentionally NOT in $PINS: pinning them would
-# mean the build no longer picks up our own work. These commits are kept only as
-# a record of a known-good set. Do not move them into $PINS.
-# gershwin-windowmanager       1f3cc1c
-# gershwin-components          3395d99
-# gershwin-eau-theme           4babcb0
-# gershwin-assets              4deb482
-# gershwin-workspace           1bc3b98
-# gershwin-system              cdeafb6
-# gershwin-systempreferences   8d49f50
-# gershwin-terminal            71124e3
-# gershwin-textedit            3df6db8
 
 # Lower CMake version requirements
 # Use a temp-file approach for in-place sed to avoid -i portability issues
