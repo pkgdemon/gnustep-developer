@@ -1,17 +1,14 @@
-# gershwin-developer
+# gnustep-developer
 
-This is intended for Gershwin developers only.  For more stable packaging with applied defaults use GhostBSD.
+This is intended for GNUstep developers only.  This is my build system to automate installing stock GNUstep to quality patches. 
 
 ## Supported Operating Systems
 
 * FreeBSD
-* GhostBSD (requires `pkg install -g 'GhostBSD*-dev'` for building)
-* OpenBSD
 * Arch Linux
-* Artix (Arch Linux without systemd)
 * Debian
-* Devuan (Debian without systemd)
-* Void Linux (runit)
+* Devuan (Debian without systems and with sys v init instead)
+* NextBSD
 
 ## Requirements for building
 
@@ -23,25 +20,28 @@ This is intended for Gershwin developers only.  For more stable packaging with a
 After installing, configuring the above requirements run the following commands as root:
 
 ```
-git clone https://github.com/gershwin-desktop/gershwin-developer.git /Developer
+git clone https://github.com/pkgdemon/gnustep-developer.git /Developer
 cd /Developer && make install
 ```
 
 `make install` runs the whole sequence itself: `bootstrap.sh` (build
 dependencies), `checkout.sh` (sources into `Library/Sources`), the full system
 domain build, and finally `dscli init` to set up Directory Services. Every step
-is idempotent, so the same command also updates an existing installation.
+is idempotent, so the same command also updates an existing installation.  To
+update simply run make install again.
+
+This installs GNUstep in /System, enables services for DirectoryServices, and creates a user admin with no password.  All new users can be managed with dicli, each user added with have it's home folder in /Local/Users.
 
 To build against the sources already checked out, without bootstrapping or
 refreshing them, use `make system` instead.
 
-To remove Gershwin installed from sources run the following as root:
+To remove GNUstep installed from sources run the following as root:
 
 ```
 cd /Developer && make uninstall
 ```
 
-This installs GNUstep in /System, enables services for DirectoryServices, and creates a user admin with no password.  All new users can be managed with dicli, each user added with have it's home folder in /Local/Users.
+Data will be kept in /Local, /Network, and /Volumes folder will persist but can be removed manually if no longer in use.  
 
 ## Requirements for usage
 
@@ -56,10 +56,6 @@ After making sure usage requirements are met the following should be run as regu
 xinit
 ```
 
-## Optional libraries
-* libdbus for waiting for the Global Menu to appear and for implementing the FileManager1 service that lets, e.g., web browsers, open the file manager to show the downloaded files
-* libsquashfs for AppImage icons
-
 ## Build targets
 
 `make install` builds and installs the entire system domain. The build is also
@@ -70,14 +66,14 @@ root, like `make install`.
 
 | Target | Builds |
 | --- | --- |
-| `corelibs` | core libraries (libdispatch, libobjc2, tools-make, libs-base, libs-gui, libs-back) plus gershwin-system, gershwin-assets and the plistupdate hook |
-| `workspace` | gershwin-workspace |
+| `corelibs` | core libraries (libdispatch, libobjc2, tools-make, libs-base, libs-gui, libs-back) plus gnustep-system, gnustep-assets |
+| `workspace` | apps-workspace |
 | `dock` | apps-dock (DockWM) |
-| `systempreferences` | gershwin-systempreferences |
-| `terminal` | gershwin-terminal |
-| `textedit` | gershwin-textedit |
-| `windowmanager` | gershwin-windowmanager |
-| `components` | gershwin-components (Menu, DirectoryServices, LoginWindow, …) |
+| `systempreferences` | apps-systempreferences |
+| `terminal` | gap |
+| `textedit` | gnustep-textedit |
+| `windowmanager` | gnustep-windowmanager |
+| `components` | gershwin-components (DirectoryServices) |
 | `dubstep-theme` | dubstep-dark-theme (GSTheme bundle, installed to /System/Library/Themes) |
 | `dscli-init` | runs `dscli init` (Directory Services: /Local skeleton, admin account, nsswitch and sudoers) |
 
@@ -91,14 +87,10 @@ make workspace
 
 ## Pinned upstream libraries
 
-The upstream libraries (`libobjc2`, `tools-make`, `libs-base`, `libs-gui`,
-`libs-back`, `libs-av`, `libs-steptalk`, `swift-corelibs-libdispatch`) are
-checked out at pinned commits by default, so that the sources we build are the
+Only `swift-corelibs-libdispatch`) is
+checked out at pinned commits by default so that the sources we build are the
 sources the patches in `Library/Patches/` were written against. Without the pins
 an upstream commit can silently break a patch and fail the build.
-
-Gershwin's own repositories are **never** pinned — they always track their
-branch, so the build picks up our work as it lands.
 
 To check whether a pin can be advanced, build against the upstream HEADs
 instead:
