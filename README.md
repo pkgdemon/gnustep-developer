@@ -109,7 +109,7 @@ of them — handy when you provide a repository's sources yourself (for example 
 CI checkout of the component under test, symlinked into `Library/Sources/`):
 
 ```
-SKIP_REPOS="gershwin-workspace gershwin-terminal" /Developer/Library/Scripts/checkout.sh
+SKIP_REPOS="apps-gworkspace gap" /Developer/Library/Scripts/checkout.sh
 ```
 
 ## Building against a development or feature branch
