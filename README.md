@@ -1,6 +1,6 @@
 # gnustep-developer
 
-This is intended for GNUstep developers only.  This is my build system to automate installing stock GNUstep to quality patches. 
+This is intended for GNUstep developers only.  This is my build system to automate installing/updating stock GNUstep to quality patches. 
 
 ## Supported Operating Systems
 
