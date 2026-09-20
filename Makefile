@@ -10,7 +10,7 @@ check_root:
 # installation.
 install: check_root
 	@sh ./Library/Scripts/bootstrap.sh
-	@$(MAKE) --no-print-directory self-update
+	@sh ./Library/Scripts/self-update.sh
 	@sh ./Library/Scripts/checkout.sh
 	@FROM_MAKEFILE=1 sh ./Library/Scripts/install-system-domain.sh all
 	@FROM_MAKEFILE=1 sh ./Library/Scripts/install-system-domain.sh dscli-init
@@ -19,14 +19,7 @@ install: check_root
 # existing installation picks up new scripts and patches. Non-fatal: a missing
 # remote, a detached HEAD or no network leaves the working tree as-is.
 self-update:
-	@if [ -d .git ] && command -v git >/dev/null 2>&1; then \
-	  git config --global --get-all safe.directory | grep -qx "$(CURDIR)" \
-	    || git config --global --add safe.directory "$(CURDIR)"; \
-	  echo "Updating gnustep-developer checkout..."; \
-	  git pull --ff-only || echo "git pull failed; continuing with the current checkout."; \
-	else \
-	  echo "Not a git checkout; skipping self-update."; \
-	fi
+	@sh ./Library/Scripts/self-update.sh
 
 # Build and install the system domain only, against the sources already in
 # Library/Sources. Does not bootstrap, check out or initialise anything.
