@@ -6,7 +6,8 @@ if [ "$FROM_MAKEFILE" != "1" ]; then
     exit 1
 fi
 
-export PATH="${PATH}:$(cd "$(dirname "$0")" && pwd -P)"
+SCRIPTS_DIR="$(cd "$(dirname "$0")" && pwd -P)"
+export PATH="${PATH}:$SCRIPTS_DIR"
 . ./Library/Scripts/functions.sh
 detect_platform
 export_vars
@@ -321,6 +322,31 @@ build_dubstep_theme() {
   $MAKE_CMD clean
 }
 
+run_dscli_init() {
+  # Initialise Directory Services: the /Local skeleton, the default admin
+  # account, and the nsswitch/sudoers wiring.  This is idempotent - an
+  # existing Users.plist/Groups.plist is left alone - so it is safe to run
+  # on every install.  dscli is installed by the components stage.
+  if ! command -v dscli >/dev/null 2>&1; then
+    echo "dscli not found on PATH. Build the components first:  make components"
+    exit 1
+  fi
+
+  # "dscli init" bakes the current PATH into sudoers' secure_path, so run it
+  # with this script's own directory filtered out - the build tree has no
+  # business being on every sudo invocation's PATH.
+  _clean_path=""
+  _old_ifs="$IFS"
+  IFS=:
+  for _dir in $PATH; do
+    [ "$_dir" = "$SCRIPTS_DIR" ] && continue
+    _clean_path="${_clean_path:+$_clean_path:}$_dir"
+  done
+  IFS="$_old_ifs"
+
+  PATH="$_clean_path" dscli init
+}
+
 # Dispatch on the requested target.  Default "all" reproduces the original
 # end-to-end System Domain install in the exact same order.
 TARGET="${1:-all}"
@@ -360,6 +386,10 @@ case "$TARGET" in
     ensure_gnustep_env
     build_dubstep_theme
     ;;
+  dscli-init)
+    ensure_gnustep_env
+    run_dscli_init
+    ;;
   all)
     build_corelibs
     build_workspace
@@ -373,7 +403,7 @@ case "$TARGET" in
     ;;
   *)
     echo "Unknown target: $TARGET"
-    echo "Valid targets: corelibs workspace dock systempreferences terminal textedit windowmanager components dubstep-theme all"
+    echo "Valid targets: corelibs workspace dock systempreferences terminal textedit windowmanager components dubstep-theme dscli-init all"
     exit 1
     ;;
 esac

@@ -23,13 +23,17 @@ This is intended for Gershwin developers only.  For more stable packaging with a
 After installing, configuring the above requirements run the following commands as root:
 
 ```
-#  Get the rest of the requirements for building
 git clone https://github.com/gershwin-desktop/gershwin-developer.git /Developer
-/Developer/Library/Scripts/bootstrap.sh
-/Developer/Library/Scripts/checkout.sh
-# Build and install Gershwin from sources
 cd /Developer && make install
 ```
+
+`make install` runs the whole sequence itself: `bootstrap.sh` (build
+dependencies), `checkout.sh` (sources into `Library/Sources`), the full system
+domain build, and finally `dscli init` to set up Directory Services. Every step
+is idempotent, so the same command also updates an existing installation.
+
+To build against the sources already checked out, without bootstrapping or
+refreshing them, use `make system` instead.
 
 To remove Gershwin installed from sources run the following as root:
 
@@ -85,6 +89,7 @@ root, like `make install`.
 | `windowmanager` | gershwin-windowmanager |
 | `components` | gershwin-components (Menu, DirectoryServices, LoginWindow, …) |
 | `dubstep-theme` | dubstep-dark-theme (GSTheme bundle, installed to /System/Library/Themes) |
+| `dscli-init` | runs `dscli init` (Directory Services: /Local skeleton, admin account, nsswitch and sudoers) |
 
 For example, build the core libraries once and then just (re)build the workspace:
 

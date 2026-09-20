@@ -4,8 +4,18 @@ check_root:
 		exit 1; \
 	fi
 
-install: system
+# Full end-to-end install: pull in the build dependencies, refresh the sources,
+# build and install the system domain, then initialise Directory Services.
+# Every step is idempotent, so this is also the way to update an existing
+# installation.
+install: check_root
+	@sh ./Library/Scripts/bootstrap.sh
+	@sh ./Library/Scripts/checkout.sh
+	@FROM_MAKEFILE=1 sh ./Library/Scripts/install-system-domain.sh all
+	@FROM_MAKEFILE=1 sh ./Library/Scripts/install-system-domain.sh dscli-init
 
+# Build and install the system domain only, against the sources already in
+# Library/Sources. Does not bootstrap, check out or initialise anything.
 system: check_root
 	@FROM_MAKEFILE=1 sh ./Library/Scripts/install-system-domain.sh all; \
 
@@ -38,6 +48,9 @@ components: check_root
 
 dubstep-theme: check_root
 	@FROM_MAKEFILE=1 sh ./Library/Scripts/install-system-domain.sh dubstep-theme
+
+dscli-init: check_root
+	@FROM_MAKEFILE=1 sh ./Library/Scripts/install-system-domain.sh dscli-init
 
 uninstall: check_root
 	@if [ -d "/usr/lib/system" ]; then \
