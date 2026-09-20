@@ -38,22 +38,22 @@ https://github.com/gnustep/libobjc2.git
 https://github.com/gnustep/tools-make.git
 https://github.com/gnustep/libs-base.git
 https://github.com/gnustep/libs-corebase.git
-git@github.com:pkgdemon/libs-gui.git
-git@github.com:pkgdemon/libs-opal.git
+https://github.com/pkgdemon/libs-gui.git
+https://github.com/pkgdemon/libs-opal.git
 https://github.com/gnustep/libs-back.git
-git@github.com:pkgdemon/libs-quartzcore.git
+https://github.com/pkgdemon/libs-quartzcore.git
 https://github.com/gnustep/libs-av.git
 https://github.com/gnustep/libs-steptalk.git
-git@github.com:pkgdemon/gnustep-system.git
-git@github.com:pkgdemon/apps-dock.git
-git@github.com:pkgdemon/apps-gworkspace.git
-git@github.com:pkgdemon/apps-systempreferences.git
-git@github.com:pkgdemon/gap
-git@github.com:pkgdemon/gnustep-textedit.git
-git@github.com:pkgdemon/gnustep-windowmanager.git
-git@github.com:pkgdemon/gnustep-assets.git
-git@github.com:pkgdemon/gnustep-components.git
-git@github.com:pkgdemon/dubstep-dark-theme.git
+https://github.com/pkgdemon/gnustep-system.git
+https://github.com/pkgdemon/apps-dock.git
+https://github.com/pkgdemon/apps-gworkspace.git
+https://github.com/pkgdemon/apps-systempreferences.git
+https://github.com/pkgdemon/gap
+https://github.com/pkgdemon/gnustep-textedit.git
+https://github.com/pkgdemon/gnustep-windowmanager.git
+https://github.com/pkgdemon/gnustep-assets.git
+https://github.com/pkgdemon/gnustep-components.git
+https://github.com/pkgdemon/dubstep-dark-theme.git
 "
 
 # Pinned commits, as "<repo name> <commit>". These are upstream libraries; we pin
