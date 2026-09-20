@@ -41,6 +41,8 @@ To remove Gershwin installed from sources run the following as root:
 cd /Developer && make uninstall
 ```
 
+This installs GNUstep in /System, enables services for DirectoryServices, and creates a user admin with no password.  All new users can be managed with dicli, each user added with have it's home folder in /Local/Users.
+
 ## Requirements for usage
 
 * xorg or xlibre
@@ -48,22 +50,10 @@ cd /Developer && make uninstall
 
 ## Usage
 
-After making sure usage requirements are met the following should be run as regular user to start Gershwin after logging in:
+After making sure usage requirements are met the following should be run as regular user to start GNUstep after logging in as admin user no password:
 
 ```
-startx /System/Library/Scripts/Gershwin.sh
-```
-
-or:
-
-```
-/System/Library/Scripts/LoginWindow.sh # Starts the X server automatically
-```
-
-or, on FreeBSD/GhostBSD: 
-
-```
-service loginwindow enable && service loginwindow start
+xinit
 ```
 
 ## Optional libraries
