@@ -289,6 +289,13 @@ build_terminal() {
   $MAKE_CMD clean
 }
 
+build_textedit() {
+  cd "$REPOS_DIR/gnustep-textedit"
+  $MAKE_CMD CPPFLAGS="-DGNUSTEP_INSTALL_TYPE=SYSTEM" -j"$CPUS" || exit 1
+  $MAKE_CMD install
+  $MAKE_CMD clean
+}
+
 build_windowmanager() {
   cd "$REPOS_DIR/gnustep-windowmanager/"
   $MAKE_CMD CPPFLAGS="-DGNUSTEP_INSTALL_TYPE=SYSTEM" -j"$CPUS" || exit 1
@@ -337,6 +344,10 @@ case "$TARGET" in
     ensure_gnustep_env
     build_terminal
     ;;
+  textedit)
+    ensure_gnustep_env
+    build_textedit
+    ;;
   windowmanager)
     ensure_gnustep_env
     build_windowmanager
@@ -355,13 +366,14 @@ case "$TARGET" in
     build_dock
     build_systempreferences
     build_terminal
+    build_textedit
     build_windowmanager
     build_components
     build_dubstep_theme
     ;;
   *)
     echo "Unknown target: $TARGET"
-    echo "Valid targets: corelibs workspace dock systempreferences terminal windowmanager components dubstep-theme all"
+    echo "Valid targets: corelibs workspace dock systempreferences terminal textedit windowmanager components dubstep-theme all"
     exit 1
     ;;
 esac
