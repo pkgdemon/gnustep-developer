@@ -23,11 +23,22 @@ export REPOS_DIR="$WORKDIR/Library/Sources"
 # with "Could not find the Grand Central Dispatch headers.". On the BSDs cc is
 # already clang, so this is a no-op there. An explicit CC/CXX/OBJC in the
 # environment still wins, so a deliberate override is unaffected.
-# -std=gnu23 matches the CC that tools-make's Autoconf 2.73 configure records
-# in gnustep-make; apps-gworkspace's configure aborts if the two differ.
-export CC="${CC:-clang -std=gnu23}"
+export CC="${CC:-clang}"
 export CXX="${CXX:-clang++}"
 export OBJC="${OBJC:-clang}"
+
+# Autoconf 2.72+ AC_PROG_CC silently upgrades CC to "$CC -std=gnu23" whenever
+# the compiler supports C23, and tools-make records that upgraded CC in
+# gnustep-make's config.make. GNUstep is not C23-clean: in C23 "int f()" means
+# "int f(void)", so gnustep-base's weak forward declaration of
+# gnustep_base_user_main conflicts with its own definition and NSProcessInfo.m
+# fails to compile. Only the BSDs hit it - Linux has HAVE_PROCFS, which
+# preprocesses that whole block away. Caching the C23 probe as "no" makes
+# configure fall through to the C11 probe, which clang passes with no extra
+# flag, so CC stays plain "clang" everywhere - including in config.make, which
+# keeps apps-gworkspace's "$CC must equal gnustep-config --variable=CC" check
+# satisfied.
+export ac_cv_prog_cc_c23=no
 
 # Detect NextBSD - libdispatch is provided by the base system
 if [ -d "/usr/lib/system" ]; then
@@ -216,6 +227,7 @@ build_corelibs() {
 
   cd "$REPOS_DIR/libs-corebase"
   ./configure \
+    $BUILD_FLAG \
     CPPFLAGS="-I/System/Library/Headers" \
     LDFLAGS="-L/System/Library/Libraries"
   $MAKE_CMD -j"$CPUS" || exit 1
