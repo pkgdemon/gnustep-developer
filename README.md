@@ -1,6 +1,8 @@
 # gnustep-developer
 
-This is intended for GNUstep developers only.  This is my build system to automate installing/updating stock GNUstep to quality patches. 
+This is intended for GNUstep developers only.  This is my build system to automate installing/updating stock GNUstep to quality patches.
+It is a fork of the same build system used for gershwin with additional automation to setup directory services for a default user, etc.  It
+uses the geshwin filesystem layout that was upstreamed to tools-make in GNUstep.  Otherwise this is very much a stock installation with some GlobalDefaults applied.
 
 ## Supported Operating Systems
 
